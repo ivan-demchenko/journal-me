@@ -1,0 +1,30 @@
+{
+	"name": "journal-me",
+  "private": "true",
+	"scripts": {
+    "start": "bun ./dist/server/index.js",
+    "build:server": "bun ./build.ts",
+    "dev": "bun ./server/index.ts",
+		"code:format": "biome format --write"
+	},
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.1",
+    "@kinde-oss/kinde-typescript-sdk": "^2.9.1",
+    "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.37.0",
+    "drizzle-zod": "^0.5.1",
+    "hono": "^4.6.12",
+    "pg": "^8.13.1",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+	"devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.11.10",
+    "drizzle-kit": "^0.29.1",
+		"@biomejs/biome": "1.9.4",
+		"@flydotio/dockerfile": "^0.5.9"
+	}
+}

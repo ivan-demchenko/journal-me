@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply dark:text-gray-300
+}
+
+a {
+  @apply text-sky-600 hover:underline dark:text-blue-400;
+}
+
+.page-title {
+  @apply text-4xl font-bold my-12;
+}
+
+.inspiration {
+  @apply my-4 text-2xl font-thin;
+}
+
+.categories {
+  @apply flex gap-2 my-4 flex-wrap;
+}
+
+.category {
+  @apply flex basis-1/4 grow-0 shrink-0 min-h-20 items-stretch;
+}
+
+.category-link {
+  @apply border border-slate-100 hover:border-sky-500 text-gray-600 hover:text-sky-700 rounded text-xl font-bold transition px-3 py-1 flex-1;
+  @apply dark:border-slate-700 dark:hover:border-sky-600 dark:text-gray-400 dark:hover:text-sky-400;
+}
+
+.form-field-label {
+  @apply mt-8 block;
+}
+
+.form-field-textarea {
+  @apply w-full border border-slate-300 rounded p-4 text-base outline-none focus:outline-2 focus:outline-sky-400 focus:border-sky-600 outline-offset-0;
+  @apply dark:bg-gray-800 dark:border-gray-600 dark:focus:outline-sky-700 dark:focus:border-sky-600;
+}
+
+.form-action {
+  @apply mt-8 py-8 border-t border-gray-300 flex flex-col items-center;
+  @apply dark:border-gray-500;
+}
+
+.form-action-submit {
+  @apply border-green-900 bg-green-700 text-white px-6 py-3 rounded focus:outline-2 focus:outline-green-600 focus:border-none;
+  @apply disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-300;
+  @apply dark:focus:outline-green-700 dark:focus:border-none;
+}
