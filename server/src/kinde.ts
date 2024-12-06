@@ -13,7 +13,7 @@ import { Config } from "./config";
 export const kindeClient = createKindeServerClient(
   GrantType.AUTHORIZATION_CODE,
   {
-    authDomain: Config.KINDE_SITE_URL,
+    authDomain: Config.KINDE_ISSUER_URL,
     clientId: Config.KINDE_CLIENT_ID,
     clientSecret: Config.KINDE_CLIENT_SECRET,
     redirectURL: Config.KINDE_REDIRECT_URI,
