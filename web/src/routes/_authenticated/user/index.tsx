@@ -1,4 +1,4 @@
-import type { NewRecordType } from "@server/shared/types";
+import type { NewRecordPayload } from "@server/src/shared/types";
 import { topicsNameMapping } from "@src/utils";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -16,7 +16,7 @@ export default function UserHome() {
           return (
             <li key={key} className="category">
               <a className="category-link" href={`/user/write-about/${key}`}>
-                {topicsNameMapping[key as NewRecordType["topic"]]}
+                {topicsNameMapping[key as NewRecordPayload["topic"]]}
               </a>
             </li>
           );

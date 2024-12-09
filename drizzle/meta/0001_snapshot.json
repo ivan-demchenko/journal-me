@@ -1,6 +1,6 @@
 {
-  "id": "58962fd5-8932-478e-8fc3-143327697e12",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "554674fc-649f-4dd7-982c-5d4811db99d9",
+  "prevId": "58962fd5-8932-478e-8fc3-143327697e12",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -163,15 +163,13 @@
           "name": "started",
           "type": "date",
           "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
+          "notNull": false
         },
         "ended": {
           "name": "ended",
           "type": "date",
           "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",

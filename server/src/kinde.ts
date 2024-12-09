@@ -8,6 +8,9 @@ import type { Context } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { Config } from "./config";
+import { getLogger } from "@logtape/logtape";
+
+const logger = getLogger(["jm-api", "mw", "auth"]);
 
 // Client for authorization code flow
 export const kindeClient = createKindeServerClient(
@@ -55,17 +58,20 @@ type Env = {
 };
 
 export const getUser = createMiddleware<Env>(async (c, next) => {
+  logger.info("check user");
   try {
     const manager = sessionManager(c);
     const isAuthenticated = await kindeClient.isAuthenticated(manager);
     if (!isAuthenticated) {
+      logger.info("Unauthorized");
       return c.json({ error: "Unauthorized" }, 401);
     }
     const user = await kindeClient.getUserProfile(manager);
     c.set("user", user);
+    logger.debug("got user {val}", { val: user.id });
     await next();
   } catch (e) {
-    console.error(e);
+    logger.debug("error {err}", { err: e });
     return c.json({ error: "Unauthorized" }, 401);
   }
 });

@@ -1,0 +1,1 @@
+ALTER TABLE "employment" ALTER COLUMN "started" SET NOT NULL;

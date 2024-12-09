@@ -17,6 +17,7 @@ import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthenticatedUserIndexImport } from './routes/_authenticated/user/index'
 import { Route as AuthenticatedUserProfileImport } from './routes/_authenticated/user/profile'
 import { Route as AuthenticatedUserWriteAboutTopicImport } from './routes/_authenticated/user/write-about/$topic'
+import { Route as AuthenticatedUserEmploymentNewImport } from './routes/_authenticated/user/employment/new'
 
 // Create/Update Routes
 
@@ -53,6 +54,13 @@ const AuthenticatedUserWriteAboutTopicRoute =
   AuthenticatedUserWriteAboutTopicImport.update({
     id: '/user/write-about/$topic',
     path: '/user/write-about/$topic',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+
+const AuthenticatedUserEmploymentNewRoute =
+  AuthenticatedUserEmploymentNewImport.update({
+    id: '/user/employment/new',
+    path: '/user/employment/new',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 
@@ -95,6 +103,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserIndexImport
       parentRoute: typeof AuthenticatedImport
     }
+    '/_authenticated/user/employment/new': {
+      id: '/_authenticated/user/employment/new'
+      path: '/user/employment/new'
+      fullPath: '/user/employment/new'
+      preLoaderRoute: typeof AuthenticatedUserEmploymentNewImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/user/write-about/$topic': {
       id: '/_authenticated/user/write-about/$topic'
       path: '/user/write-about/$topic'
@@ -110,12 +125,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedUserProfileRoute: typeof AuthenticatedUserProfileRoute
   AuthenticatedUserIndexRoute: typeof AuthenticatedUserIndexRoute
+  AuthenticatedUserEmploymentNewRoute: typeof AuthenticatedUserEmploymentNewRoute
   AuthenticatedUserWriteAboutTopicRoute: typeof AuthenticatedUserWriteAboutTopicRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedUserProfileRoute: AuthenticatedUserProfileRoute,
   AuthenticatedUserIndexRoute: AuthenticatedUserIndexRoute,
+  AuthenticatedUserEmploymentNewRoute: AuthenticatedUserEmploymentNewRoute,
   AuthenticatedUserWriteAboutTopicRoute: AuthenticatedUserWriteAboutTopicRoute,
 }
 
@@ -129,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/user/profile': typeof AuthenticatedUserProfileRoute
   '/user': typeof AuthenticatedUserIndexRoute
+  '/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
   '/user/write-about/$topic': typeof AuthenticatedUserWriteAboutTopicRoute
 }
 
@@ -138,6 +156,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/user/profile': typeof AuthenticatedUserProfileRoute
   '/user': typeof AuthenticatedUserIndexRoute
+  '/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
   '/user/write-about/$topic': typeof AuthenticatedUserWriteAboutTopicRoute
 }
 
@@ -148,6 +167,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/_authenticated/user/profile': typeof AuthenticatedUserProfileRoute
   '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
+  '/_authenticated/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
   '/_authenticated/user/write-about/$topic': typeof AuthenticatedUserWriteAboutTopicRoute
 }
 
@@ -159,6 +179,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/user/profile'
     | '/user'
+    | '/user/employment/new'
     | '/user/write-about/$topic'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -167,6 +188,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/user/profile'
     | '/user'
+    | '/user/employment/new'
     | '/user/write-about/$topic'
   id:
     | '__root__'
@@ -175,6 +197,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/_authenticated/user/profile'
     | '/_authenticated/user/'
+    | '/_authenticated/user/employment/new'
     | '/_authenticated/user/write-about/$topic'
   fileRoutesById: FileRoutesById
 }
@@ -214,6 +237,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/user/profile",
         "/_authenticated/user/",
+        "/_authenticated/user/employment/new",
         "/_authenticated/user/write-about/$topic"
       ]
     },
@@ -226,6 +250,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/user/": {
       "filePath": "_authenticated/user/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/user/employment/new": {
+      "filePath": "_authenticated/user/employment/new.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/user/write-about/$topic": {

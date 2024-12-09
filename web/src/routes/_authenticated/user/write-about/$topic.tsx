@@ -1,4 +1,4 @@
-import type { NewRecordType } from "@server/shared/types";
+import type { NewRecordPayload } from "@server/src/shared/types";
 import { saveRecord } from "@src/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
@@ -11,12 +11,12 @@ export const Route = createFileRoute("/_authenticated/user/write-about/$topic")(
 );
 
 function FormComponent(props: {
-  topic: NewRecordType["topic"];
+  topic: NewRecordPayload["topic"];
   title: string;
   inspiration: string;
 }) {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [form, setForm] = useState<NewRecordType>({
+  const [form, setForm] = useState<NewRecordPayload>({
     topic: props.topic,
     action: "",
     result: "",

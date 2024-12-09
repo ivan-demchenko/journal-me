@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 import { authRoute } from "./auth";
 import { recordsRoutes } from "./routes/records";
 import { Config } from "./config";
+import { employmentRoutes } from "./routes/employments";
 
 const app = new Hono();
 
@@ -14,6 +15,7 @@ app.get("/health", (c) => c.text("ok"));
 const apiRoutes = app
   .basePath("/api")
   .route("/records", recordsRoutes)
+  .route("/employments", employmentRoutes)
   .route("/", authRoute);
 
 app.get(

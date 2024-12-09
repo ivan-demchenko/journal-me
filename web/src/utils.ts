@@ -1,6 +1,6 @@
-import type { NewRecordType } from "@server/shared/types";
+import type { NewRecordPayload } from "@server/src/shared/types";
 
-export const topicsNameMapping: Record<NewRecordType["topic"], string> = {
+export const topicsNameMapping: Record<NewRecordPayload["topic"], string> = {
   "collaboration-and-teamwork": "Collaboration and teamwork",
   "feedback-and-recognition": "Feedback and recognition",
   "goals-and-progress": "Goals and progress",

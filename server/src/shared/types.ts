@@ -1,10 +1,12 @@
 import type { z } from "zod";
+import type { newRecordSchema, selectRecordSchema } from "../db/schema";
 import type {
-  insertRecordSchema,
-  newRecordSchema,
-  selectRecordSchema,
-} from "../db/schema";
+  newEmploymentSchema,
+  selectEmploymentSchema,
+} from "../db/schema/employment";
 
-export type InsertRecordType = z.infer<typeof insertRecordSchema>;
-export type NewRecordType = z.infer<typeof newRecordSchema>;
-export type SelectRecordType = z.infer<typeof selectRecordSchema>;
+export type NewRecordPayload = z.infer<typeof newRecordSchema>;
+export type RecordApiResponse = z.infer<typeof selectRecordSchema>;
+
+export type NewEmploymentPayload = z.infer<typeof newEmploymentSchema>;
+export type EmploymentApiResponse = z.infer<typeof selectEmploymentSchema>;
