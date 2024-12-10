@@ -7,26 +7,20 @@
   },
   "scripts": {
     "build": "bun ./build.ts",
-    "dev": "bun --watch ./index.ts",
-    "db:migration:gen": "bunx --bun drizzle-kit generate",
-    "db:migration:run": "bunx --bun drizzle-kit migrate"
+    "dev": "bun --watch ./index.ts"
   },
   "dependencies": {
+    "@jm/db": "workspace:*",
     "@hono/zod-validator": "^0.4.1",
     "@kinde-oss/kinde-typescript-sdk": "^2.9.1",
     "@logtape/logtape": "^0.8.0",
     "date-fns": "^4.1.0",
-    "drizzle-orm": "^0.37.0",
-    "drizzle-zod": "^0.5.1",
     "hono": "^4.6.12",
-    "pg": "^8.13.1",
     "typescript-result": "^3.1.0",
     "zod": "^3.24.0"
   },
   "devDependencies": {
     "typescript": "^5.6.2",
-    "@types/bun": "latest",
-    "@types/pg": "^8.11.10",
-    "drizzle-kit": "^0.29.1"
+    "@types/bun": "latest"
   }
 }

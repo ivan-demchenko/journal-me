@@ -1,19 +1,20 @@
 import type { z } from "zod";
+import type { newRecordSchema } from "../routes/records";
+import type { newEmploymentSchema } from "../routes/employments";
+// TODO: fix this!
 import type {
-  newRecordSchema,
-  selectRecordSchema,
-  newEmploymentSchema,
   selectEmploymentSchema,
-} from "../db/types";
+  selectRecordSchema,
+} from "@jm/db/src/types";
 
 export type { ApiRoutes } from "../app";
 
 export type NewRecordPayload = z.infer<typeof newRecordSchema>;
-export type RecordApiResponse = z.infer<typeof selectRecordSchema>;
+export type RecordResponse = z.infer<typeof selectRecordSchema>;
 
 export type NewEmploymentPayload = z.infer<typeof newEmploymentSchema>;
-export type EmploymentApiResponse = z.infer<typeof selectEmploymentSchema>;
+export type EmploymentResponse = z.infer<typeof selectEmploymentSchema>;
 
-export type EmploymentStoryResponse = EmploymentApiResponse & {
-  records: RecordApiResponse[];
+export type EmploymentStoryResponse = EmploymentResponse & {
+  records: RecordResponse[];
 };

@@ -1,8 +1,8 @@
-import type { RecordApiResponse } from "@jm/server/shared";
+import type { RecordResponse } from "@jm/server/shared";
 import { topicsNameMapping } from "@src/utils";
 
 export function RecordCard(props: {
-  record: RecordApiResponse;
+  record: RecordResponse;
 }) {
   return (
     <article className="p-4">
