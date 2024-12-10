@@ -23,16 +23,16 @@ RUN apt-get update -qq && \
 # Copy application code
 COPY . .
 RUN bun install --ci
-RUN bun run build:server
+RUN bun --filter=@jm/server run build
+RUN bun --filter=@jm/web run build
 
-WORKDIR /app/web
-RUN bun install --ci
-RUN bun run build
+RUN mkdir -p ./dist/{server,web}
+RUN cp -a ./packages/server/dist/. ./dist/server/
+RUN cp -a ./packages/web/dist/. ./dist/web/
+
 # Remove all files in frontend except for the dist folder
-WORKDIR /app
-RUN rm -rf ./web
+RUN rm -rf ./packages
 RUN rm -rf ./node_modules
-RUN rm -rf ./server
 # RUN find . -mindepth 1 ! -regex '^./dist\(/.*\)?' -delete
 
 # Final stage for app image

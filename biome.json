@@ -6,11 +6,7 @@
     "useIgnoreFile": false
   },
   "files": {
-    "include": [
-      "./server/**/*.ts",
-      "./frontend/src/**/*.ts",
-      "./frontend/src/**/*.tsx"
-    ],
+    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.html"],
     "ignoreUnknown": false,
     "ignore": []
   },

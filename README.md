@@ -9,10 +9,9 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun --focus=@jm/server run dev
+bun --focus=@jm/web run dev
 ```
-
-This project was created using `bun init` in bun v1.1.38. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
 
 Deploy to Fly.io
 Use Kinde for auth
