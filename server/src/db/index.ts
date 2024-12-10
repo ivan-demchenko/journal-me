@@ -27,28 +27,33 @@ export const getUserRecords = async (
       .where(eq(recordsTable.userId, userId));
     return Result.ok(res);
   } catch (e) {
-    if (e instanceof Error) {
-      return Result.error(`DB query (get user records) failed: ${e.message}`);
-    }
-    return Result.error(
-      "DB query (get user records) failed for an unknown reason",
-    );
+    logger.error("add user record query failed {e}", { e });
+    return Result.error("DB query (get user records) failed");
   }
 };
 
 export const addUserRecord = async (
   userId: string,
   record: NewRecordType,
-): Promise<SelectRecordType> => {
+): Promise<Result<SelectRecordType, string>> => {
   logger.info("add a record");
-  return db
-    .insert(recordsTable)
-    .values({
-      ...record,
-      userId: userId,
-    })
-    .returning()
-    .then((res) => res[0]);
+  try {
+    const data = await db
+      .insert(recordsTable)
+      .values({
+        ...record,
+        userId: userId,
+      })
+      .returning()
+      .then((res) => res[0]);
+
+    logger.debug("insert result {data}", { data });
+
+    return Result.ok(data);
+  } catch (e) {
+    logger.error("add user record query failed {e}", { e });
+    return Result.error("DB query (add user record) failed");
+  }
 };
 
 export const getUserEmployments = async (
@@ -64,28 +69,30 @@ export const getUserEmployments = async (
     return Result.ok(data);
   } catch (e) {
     logger.error("get user employments query failed {err}", { err: e });
-    if (e instanceof Error) {
-      return Result.error(
-        `DB query (get user employments) failed: ${e.message}`,
-      );
-    }
-    return Result.error(
-      "DB query (get user employments) failed for an unknown reason",
-    );
+    return Result.error("DB query (get user employments) failed");
   }
 };
 
 export const addUserEmployment = async (
   userId: string,
   newEmployment: NewEmploymentType,
-): Promise<SelectEmploymentType> => {
+): Promise<Result<SelectEmploymentType, string>> => {
   logger.info("add employment");
-  return db
-    .insert(employmentTable)
-    .values({
-      ...newEmployment,
-      userId: userId,
-    })
-    .returning()
-    .then((res) => res[0]);
+  try {
+    const data = await db
+      .insert(employmentTable)
+      .values({
+        ...newEmployment,
+        userId: userId,
+      })
+      .returning()
+      .then((res) => res[0]);
+
+    logger.debug("insert employment returned {data}", { data });
+
+    return Result.ok(data);
+  } catch (e) {
+    logger.error("add user employment query failed {e}", { e });
+    return Result.error("DB query (add user employment) failed");
+  }
 };

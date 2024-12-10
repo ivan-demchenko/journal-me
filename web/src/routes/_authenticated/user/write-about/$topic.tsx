@@ -1,6 +1,6 @@
 import type { NewRecordPayload } from "@server/src/shared/types";
-import { saveRecord } from "@src/lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { saveRecord, userEmploymentsQueryOptions } from "@src/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { type FormEvent, useState } from "react";
 
@@ -15,6 +15,7 @@ function FormComponent(props: {
   title: string;
   inspiration: string;
 }) {
+  const employmentsQuery = useQuery(userEmploymentsQueryOptions);
   const [isDisabled, setIsDisabled] = useState(false);
   const [form, setForm] = useState<NewRecordPayload>({
     topic: props.topic,
@@ -22,6 +23,7 @@ function FormComponent(props: {
     result: "",
     situation: "",
     task: "",
+    employmentId: null,
   });
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -45,6 +47,23 @@ function FormComponent(props: {
         <Link to="/user">Pick another topic</Link>
       </div>
       <article className="inspiration">{props.inspiration}</article>
+      <div>
+        <label>Is this related to any specific company?</label>
+        <select
+          className="form-select"
+          onChange={e => setForm((prev) => ({ ...prev, employmentId: Number(e.target.value) }))}
+          disabled={employmentsQuery.isLoading || Boolean(employmentsQuery.error)}
+          value={form.employmentId || undefined}
+        >
+          { employmentsQuery.isLoading
+            ? <option>Loading...</option>
+            : <>
+                <option>No</option>
+                {employmentsQuery.data?.employments.map(rec => <option key={rec.id} value={rec.id}>{rec.companyName}</option>)}
+              </>
+          }
+        </select>
+      </div>
       <label className="form-field-label" htmlFor="situation">
         Situation:
       </label>

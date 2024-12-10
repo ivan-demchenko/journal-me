@@ -1,9 +1,10 @@
 import type { z } from "zod";
-import type { newRecordSchema, selectRecordSchema } from "../db/schema";
 import type {
+  newRecordSchema,
+  selectRecordSchema,
   newEmploymentSchema,
   selectEmploymentSchema,
-} from "../db/schema/employment";
+} from "../db/schema";
 
 export type NewRecordPayload = z.infer<typeof newRecordSchema>;
 export type RecordApiResponse = z.infer<typeof selectRecordSchema>;

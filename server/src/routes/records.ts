@@ -9,18 +9,18 @@ const logger = getLogger(["jm-api", "route", "records"]);
 
 export const recordsRoutes = new Hono()
   .get("/", getUser, async (c) => {
-    logger.info("get records {userId}", { userId: c.var.user.id });
+    logger.info("get {userId}", { userId: c.var.user.id });
     const userId = c.var.user.id;
     const queryRes = await getUserRecords(userId);
     if (queryRes.isOk()) {
-      logger.debug("success {val}", { value: queryRes.value });
+      logger.debug("get OK {val}", { value: queryRes.value });
       return c.json({ records: queryRes.value });
     }
-    logger.error("failed to fetch records {err}", { err: queryRes.value });
+    logger.error("get FAIL {err}", { err: queryRes.value });
     return c.json({ error: queryRes.value }, 500);
   })
   .post("/new", getUser, zValidator("json", newRecordSchema), async (c) => {
-    logger.info("new record {userId} ", { userId: c.var.user.id });
+    logger.info("/new POST {userId} ", { userId: c.var.user.id });
     const userId = c.var.user.id;
     const input = c.req.valid("json");
     logger.debug("payload: {input}", { input, userId });
