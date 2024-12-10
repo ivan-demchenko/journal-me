@@ -1,30 +1,56 @@
+import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import {
-  recordsTable,
-  type NewRecordType,
-  type SelectRecordType,
-  employmentTable,
-  type NewEmploymentType,
-  type SelectEmploymentType,
-} from "./schema";
 import { eq } from "drizzle-orm";
+import * as schema from "./schema";
 import { Config } from "../config";
 import { Result } from "typescript-result";
 import { getLogger } from "@logtape/logtape";
+import type {
+  NewEmploymentType,
+  NewRecordType,
+  SelectEmploymentType,
+  SelectRecordType,
+} from "./types";
 
 const logger = getLogger(["jm-api", "db"]);
 
-export const db = drizzle(Config.DATABASE_URL);
+const pool = new Pool({
+  connectionString: Config.DATABASE_URL,
+});
+export const db = drizzle({
+  client: pool,
+  schema,
+  logger: {
+    logQuery: (queryStr, params: unknown[]) => {
+      logger.debug("Exec query {queryStr} with params {params}", {
+        queryStr,
+        params,
+      });
+    },
+  },
+});
+
+export const getEmploymentStories = async (userId: string) => {
+  logger.info("get employment stories");
+  return db.query.employments.findMany({
+    with: {
+      records: {
+        orderBy: (t, ops) => [ops.asc(t.created_at)],
+      },
+    },
+    where: (t, ops) => ops.eq(t.userId, userId),
+    orderBy: (t, ops) => ops.desc(t.started),
+  });
+};
 
 export const getUserRecords = async (
   userId: string,
 ): Promise<Result<SelectRecordType[], string>> => {
   logger.info("get user records");
   try {
-    const res = await db
-      .select()
-      .from(recordsTable)
-      .where(eq(recordsTable.userId, userId));
+    const res = await db.query.records.findMany({
+      where: (table, ops) => ops.eq(table.userId, userId),
+    });
     return Result.ok(res);
   } catch (e) {
     logger.error("add user record query failed {e}", { e });
@@ -39,7 +65,7 @@ export const addUserRecord = async (
   logger.info("add a record");
   try {
     const data = await db
-      .insert(recordsTable)
+      .insert(schema.records)
       .values({
         ...record,
         userId: userId,
@@ -62,11 +88,10 @@ export const getUserEmployments = async (
   logger.info("get user employments");
   logger.debug("get user employments for user {userId}", { userId });
   try {
-    const data = await db
-      .select()
-      .from(employmentTable)
-      .where(eq(employmentTable.userId, userId));
-    return Result.ok(data);
+    const res = await db.query.employments.findMany({
+      where: (t, ops) => ops.eq(t.userId, userId),
+    });
+    return Result.ok(res);
   } catch (e) {
     logger.error("get user employments query failed {err}", { err: e });
     return Result.error("DB query (get user employments) failed");
@@ -80,7 +105,7 @@ export const addUserEmployment = async (
   logger.info("add employment");
   try {
     const data = await db
-      .insert(employmentTable)
+      .insert(schema.employments)
       .values({
         ...newEmployment,
         userId: userId,

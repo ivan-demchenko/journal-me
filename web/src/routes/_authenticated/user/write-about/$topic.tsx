@@ -44,14 +44,14 @@ function FormComponent(props: {
     <form onSubmit={handleAddTodo}>
       <h2 className="page-title">{props.title}</h2>
       <div>
-        <Link to="/user">Pick another topic</Link>
+        <Link to="/user/start-writing">Pick another topic</Link>
       </div>
       <article className="inspiration">{props.inspiration}</article>
       <div>
         <label>Is this related to any specific company?</label>
         <select
           className="form-select"
-          onChange={e => setForm((prev) => ({ ...prev, employmentId: Number(e.target.value) }))}
+          onChange={e => setForm((prev: NewRecordPayload) => ({ ...prev, employmentId: Number(e.target.value) }))}
           disabled={employmentsQuery.isLoading || Boolean(employmentsQuery.error)}
           value={form.employmentId || undefined}
         >
@@ -71,7 +71,7 @@ function FormComponent(props: {
         disabled={isDisabled}
         value={form.situation}
         onChange={(e) =>
-          setForm((prev) => ({ ...prev, situation: e.target.value }))
+          setForm((prev: NewRecordPayload) => ({ ...prev, situation: e.target.value }))
         }
         className="form-field-textarea"
         id="situation"
@@ -85,7 +85,7 @@ function FormComponent(props: {
       <textarea
         value={form.task}
         disabled={isDisabled}
-        onChange={(e) => setForm((prev) => ({ ...prev, task: e.target.value }))}
+        onChange={(e) => setForm((prev: NewRecordPayload) => ({ ...prev, task: e.target.value }))}
         className="form-field-textarea"
         id="task"
         name="task"
@@ -99,7 +99,7 @@ function FormComponent(props: {
         value={form.action}
         disabled={isDisabled}
         onChange={(e) =>
-          setForm((prev) => ({ ...prev, action: e.target.value }))
+          setForm((prev: NewRecordPayload) => ({ ...prev, action: e.target.value }))
         }
         className="form-field-textarea"
         id="action"
@@ -114,7 +114,7 @@ function FormComponent(props: {
         value={form.result}
         disabled={isDisabled}
         onChange={(e) =>
-          setForm((prev) => ({ ...prev, result: e.target.value }))
+          setForm((prev: NewRecordPayload) => ({ ...prev, result: e.target.value }))
         }
         className="form-field-textarea"
         id="result"

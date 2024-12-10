@@ -1,11 +1,11 @@
-import type { SelectRecordType } from "@server/shared/types";
+import type { RecordApiResponse } from "@server/src/shared/types";
 import { topicsNameMapping } from "@src/utils";
 
 export function RecordCard(props: {
-  record: SelectRecordType;
+  record: RecordApiResponse;
 }) {
   return (
-    <article className="border-b-2 border-gray-200 dark:border-gray-500 border-dashed p-4 last-of-type:border-none">
+    <article className="p-4">
       <span className="block text-sm font-bold text-gray-500 dark:text-gray-400 uppercase">
         {props.record.created_at}
       </span>

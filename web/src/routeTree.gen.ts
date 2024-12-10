@@ -14,7 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthLoginImport } from './routes/auth/login'
-import { Route as AuthenticatedUserIndexImport } from './routes/_authenticated/user/index'
+import { Route as AuthenticatedUserStartWritingImport } from './routes/_authenticated/user/start-writing'
 import { Route as AuthenticatedUserProfileImport } from './routes/_authenticated/user/profile'
 import { Route as AuthenticatedUserWriteAboutTopicImport } from './routes/_authenticated/user/write-about/$topic'
 import { Route as AuthenticatedUserEmploymentNewImport } from './routes/_authenticated/user/employment/new'
@@ -38,11 +38,12 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedUserIndexRoute = AuthenticatedUserIndexImport.update({
-  id: '/user/',
-  path: '/user/',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
+const AuthenticatedUserStartWritingRoute =
+  AuthenticatedUserStartWritingImport.update({
+    id: '/user/start-writing',
+    path: '/user/start-writing',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 const AuthenticatedUserProfileRoute = AuthenticatedUserProfileImport.update({
   id: '/user/profile',
@@ -96,11 +97,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserProfileImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/user/': {
-      id: '/_authenticated/user/'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof AuthenticatedUserIndexImport
+    '/_authenticated/user/start-writing': {
+      id: '/_authenticated/user/start-writing'
+      path: '/user/start-writing'
+      fullPath: '/user/start-writing'
+      preLoaderRoute: typeof AuthenticatedUserStartWritingImport
       parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/user/employment/new': {
@@ -124,14 +125,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedUserProfileRoute: typeof AuthenticatedUserProfileRoute
-  AuthenticatedUserIndexRoute: typeof AuthenticatedUserIndexRoute
+  AuthenticatedUserStartWritingRoute: typeof AuthenticatedUserStartWritingRoute
   AuthenticatedUserEmploymentNewRoute: typeof AuthenticatedUserEmploymentNewRoute
   AuthenticatedUserWriteAboutTopicRoute: typeof AuthenticatedUserWriteAboutTopicRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedUserProfileRoute: AuthenticatedUserProfileRoute,
-  AuthenticatedUserIndexRoute: AuthenticatedUserIndexRoute,
+  AuthenticatedUserStartWritingRoute: AuthenticatedUserStartWritingRoute,
   AuthenticatedUserEmploymentNewRoute: AuthenticatedUserEmploymentNewRoute,
   AuthenticatedUserWriteAboutTopicRoute: AuthenticatedUserWriteAboutTopicRoute,
 }
@@ -145,7 +146,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/user/profile': typeof AuthenticatedUserProfileRoute
-  '/user': typeof AuthenticatedUserIndexRoute
+  '/user/start-writing': typeof AuthenticatedUserStartWritingRoute
   '/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
   '/user/write-about/$topic': typeof AuthenticatedUserWriteAboutTopicRoute
 }
@@ -155,7 +156,7 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/user/profile': typeof AuthenticatedUserProfileRoute
-  '/user': typeof AuthenticatedUserIndexRoute
+  '/user/start-writing': typeof AuthenticatedUserStartWritingRoute
   '/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
   '/user/write-about/$topic': typeof AuthenticatedUserWriteAboutTopicRoute
 }
@@ -166,7 +167,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/_authenticated/user/profile': typeof AuthenticatedUserProfileRoute
-  '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
+  '/_authenticated/user/start-writing': typeof AuthenticatedUserStartWritingRoute
   '/_authenticated/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
   '/_authenticated/user/write-about/$topic': typeof AuthenticatedUserWriteAboutTopicRoute
 }
@@ -178,7 +179,7 @@ export interface FileRouteTypes {
     | ''
     | '/auth/login'
     | '/user/profile'
-    | '/user'
+    | '/user/start-writing'
     | '/user/employment/new'
     | '/user/write-about/$topic'
   fileRoutesByTo: FileRoutesByTo
@@ -187,7 +188,7 @@ export interface FileRouteTypes {
     | ''
     | '/auth/login'
     | '/user/profile'
-    | '/user'
+    | '/user/start-writing'
     | '/user/employment/new'
     | '/user/write-about/$topic'
   id:
@@ -196,7 +197,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth/login'
     | '/_authenticated/user/profile'
-    | '/_authenticated/user/'
+    | '/_authenticated/user/start-writing'
     | '/_authenticated/user/employment/new'
     | '/_authenticated/user/write-about/$topic'
   fileRoutesById: FileRoutesById
@@ -236,7 +237,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/user/profile",
-        "/_authenticated/user/",
+        "/_authenticated/user/start-writing",
         "/_authenticated/user/employment/new",
         "/_authenticated/user/write-about/$topic"
       ]
@@ -248,8 +249,8 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/user/profile.tsx",
       "parent": "/_authenticated"
     },
-    "/_authenticated/user/": {
-      "filePath": "_authenticated/user/index.tsx",
+    "/_authenticated/user/start-writing": {
+      "filePath": "_authenticated/user/start-writing.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/user/employment/new": {

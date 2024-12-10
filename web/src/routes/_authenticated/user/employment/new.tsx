@@ -28,7 +28,7 @@ export const Route = createFileRoute('/_authenticated/user/employment/new')({
     const mutation = useMutation({
       mutationFn: saveEmployment,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["get-user-records-preview", "get-user-employments"] });
+        queryClient.invalidateQueries({ queryKey: ["employment-stories"] });
       },
     });
 
@@ -51,7 +51,7 @@ export const Route = createFileRoute('/_authenticated/user/employment/new')({
       <form onSubmit={handleAddTodo}>
         <h2 className="page-title">Add employment</h2>
         <div>
-          <Link to="/user">Go back</Link>
+          <Link to="/user/profile">Go back</Link>
         </div>
         <label className="form-field-label" htmlFor="company-name">
           Company name:

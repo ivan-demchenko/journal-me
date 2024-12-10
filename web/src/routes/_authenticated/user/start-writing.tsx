@@ -1,10 +1,10 @@
-import type { NewRecordPayload } from "@server/src/shared/types";
-import { topicsNameMapping } from "@src/utils";
-import { createFileRoute } from "@tanstack/react-router";
+import type { NewRecordPayload } from '@server/src/shared/types'
+import { topicsNameMapping } from '@src/utils'
+import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute("/_authenticated/user/")({
+export const Route = createFileRoute('/_authenticated/user/start-writing')({
   component: UserHome,
-});
+})
 
 export default function UserHome() {
   return (
@@ -16,12 +16,12 @@ export default function UserHome() {
           return (
             <li key={key} className="category">
               <a className="category-link" href={`/user/write-about/${key}`}>
-                {topicsNameMapping[key as NewRecordPayload["topic"]]}
+                {topicsNameMapping[key as NewRecordPayload['topic']]}
               </a>
             </li>
-          );
+          )
         })}
       </ul>
     </>
-  );
+  )
 }

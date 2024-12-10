@@ -7,6 +7,18 @@ const client = hc<ApiRoutes>("/");
 
 export const api = client.api;
 
+export const userEmploymentStoriesQueryOptions = queryOptions({
+  queryKey: ["employment-stories"],
+  queryFn: async () => {
+    const res = await api.employments["with-stories"].$get()
+    if (!res.ok) {
+      throw new Error("server error");
+    }
+    return res.json();
+  },
+  staleTime: Number.POSITIVE_INFINITY,
+});
+
 export const userQueryOptions = queryOptions({
   queryKey: ["get-current-user"],
   queryFn: async () => {

@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQueries } from "@tanstack/react-query";
-import { userEmploymentsQueryOptions, userRecordsPreviewQueryOptions } from "@src/lib/api";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { userEmploymentStoriesQueryOptions } from "@src/lib/api";
 import { RecordCard } from "@src/components/record-card";
+import { EmploymentCard } from "@src/components/employment-card";
 
 export const Route = createFileRoute("/_authenticated/user/profile")({
   beforeLoad: ({ context }) => {
@@ -12,32 +13,18 @@ export const Route = createFileRoute("/_authenticated/user/profile")({
 
 function UserProfile() {
   const { user } = Route.useRouteContext();
-  const [
-    memories,
-    employments
-  ] = useQueries({
-    queries: [
-      userRecordsPreviewQueryOptions,
-      userEmploymentsQueryOptions
-    ]
-  });
+  const { data, isLoading, error } = useQuery(userEmploymentStoriesQueryOptions);
 
-  if (
-    memories.isLoading
-    || employments.isLoading
-  ) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (
     !user
-    || memories.error
-    || !memories.data
-    || employments.error
-    || !employments.data
+    || error
+    || !data
   ) {
-    console.log(memories.error);
-    // console.log(employments.error);
+    console.log(error);
     return <div>Something went wrong</div>;
   }
 
@@ -49,32 +36,14 @@ function UserProfile() {
       <article className="inspiration">
         Here you'll find your notes as you add them.
       </article>
-      <section className="grid gap-8 grid-cols-2">
-        <div>
-          <div className="flex">
-            <h3 className="flex-1">Your Memories</h3>
-            <Link to="/user">Add a new one</Link>
-          </div>
-          {memories.data.records.map((rec) => {
-            return <RecordCard key={rec.id} record={rec} />;
-          })}
-        </div>
-        <div>
-          <div className="flex">
-            <h3 className="flex-1">Your Employments</h3>
-            <Link to="/user/employment/new">Add one</Link>
-          </div>
-          {employments.data.employments.map((rec) => {
-            return (
-              <div>
-                <h4 className="text-xl">{rec.companyName}</h4>
-                <div>
-                  {rec.started} - {rec.ended}
-                </div>
-              </div>
-            )
-          })}
-        </div>
+      <section className="flex gap-4">
+        <Link to="/user/start-writing">Write a new story</Link>
+        <Link to="/user/employment/new">Add employment</Link>
+      </section>
+      <section className="divide-gray-500">
+        {data.employments.map((employment) => {
+          return <EmploymentCard employment={employment} />
+        })}
       </section>
     </>
   );

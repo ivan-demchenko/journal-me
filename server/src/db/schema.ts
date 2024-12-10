@@ -1,9 +1,10 @@
-import type { z } from "zod";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import * as p from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-export const employmentTable = p.pgTable(
+/**
+ * Employments DB schema
+ */
+export const employments = p.pgTable(
   "employment",
   {
     id: p.integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -22,7 +23,10 @@ export const employmentTable = p.pgTable(
   },
 );
 
-export const recordsTable = p.pgTable(
+/**
+ * Records DB schema
+ */
+export const records = p.pgTable(
   "records",
   {
     id: p.integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -43,9 +47,7 @@ export const recordsTable = p.pgTable(
         ],
       })
       .notNull(),
-    employmentId: p
-      .integer("employment_id")
-      .references(() => employmentTable.id),
+    employmentId: p.integer("employment_id").references(() => employments.id),
     situation: p.text("situation").notNull(),
     task: p.text("task").notNull(),
     action: p.text("action").notNull(),
@@ -60,39 +62,13 @@ export const recordsTable = p.pgTable(
   },
 );
 
-export const recordsEmploymentRel = relations(employmentTable, ({ many }) => ({
-  records: many(recordsTable),
+export const recordsRelations = relations(records, ({ one }) => ({
+  employment: one(employments, {
+    fields: [records.employmentId],
+    references: [employments.id],
+  }),
 }));
 
-// Schema for validating API requests
-export const insertRecordSchema = createInsertSchema(recordsTable);
-export type InsertRecordType = z.infer<typeof insertRecordSchema>;
-
-// Schema for validating API responses
-export const selectRecordSchema = createSelectSchema(recordsTable);
-export type SelectRecordType = z.infer<typeof selectRecordSchema>;
-
-// ---
-export const newRecordSchema = insertRecordSchema.omit({
-  id: true,
-  userId: true,
-  created_at: true,
-  updated_at: true,
-});
-export type NewRecordType = z.infer<typeof newRecordSchema>;
-
-// API -> DB level
-export const insertEmploymentSchema = createInsertSchema(employmentTable);
-export const selectEmploymentSchema = createSelectSchema(employmentTable);
-
-export type InsertEmploymentType = z.infer<typeof insertEmploymentSchema>;
-export type SelectEmploymentType = z.infer<typeof selectEmploymentSchema>;
-
-// Client -> API level
-export const newEmploymentSchema = insertEmploymentSchema.omit({
-  id: true,
-  userId: true,
-  created_at: true,
-  updated_at: true,
-});
-export type NewEmploymentType = z.infer<typeof newEmploymentSchema>;
+export const employmentRelations = relations(employments, ({ many }) => ({
+  records: many(records),
+}));
