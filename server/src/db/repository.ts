@@ -1,6 +1,5 @@
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq } from "drizzle-orm";
 import * as schema from "./schema";
 import { Config } from "../config";
 import { Result } from "typescript-result";
