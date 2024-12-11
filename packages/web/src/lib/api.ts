@@ -3,6 +3,7 @@ import { queryOptions } from "@tanstack/react-query";
 import type {
   NewEmploymentPayload,
   NewRecordPayload,
+  GenerateCVPayload,
   ApiRoutes,
 } from "@jm/server/shared";
 
@@ -70,6 +71,14 @@ export async function saveEmployment(payload: NewEmploymentPayload) {
   const res = await api.employments.new.$post({
     json: payload,
   });
+  if (!res.ok) {
+    throw new Error("server error");
+  }
+  return res.json();
+}
+
+export async function generateCV(payload: GenerateCVPayload) {
+  const res = await api.generate.cv.$post({ json: payload });
   if (!res.ok) {
     throw new Error("server error");
   }

@@ -11,6 +11,7 @@ const EnvSchema = z.object({
   KINDE_REDIRECT_URI: z.string(),
   KINDE_POST_LOGOUT_REDIRECT_URL: z.string(),
   WEB_CLIENT_ASSETS: z.string(),
+  OPENAI_API_KEY: z.string(),
   PORT: z
     .string()
     .default(process.env.PORT || "8080")

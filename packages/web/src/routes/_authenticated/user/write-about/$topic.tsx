@@ -33,7 +33,7 @@ function FormComponent(props: {
     },
   });
 
-  const handleAddTodo = (e: FormEvent) => {
+  const handleFormSubmit = (e: FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDisabled(true);
@@ -41,15 +41,19 @@ function FormComponent(props: {
   };
 
   return (
-    <form onSubmit={handleAddTodo}>
+    <form onSubmit={handleFormSubmit}>
       <h2 className="page-title">{props.title}</h2>
       <div>
         <Link to="/user/start-writing">Pick another topic</Link>
       </div>
       <article className="inspiration">{props.inspiration}</article>
       <div>
-        <label>Is this related to any specific company?</label>
+        <label htmlFor="company">
+          Is this related to any specific company?
+        </label>
         <select
+          id="company"
+          name="company"
           className="form-select"
           onChange={(e) =>
             setForm((prev: NewRecordPayload) => ({

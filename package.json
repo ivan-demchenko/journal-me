@@ -9,6 +9,7 @@
   "workspaces": ["./packages/*"],
   "dependencies": {
     "@biomejs/biome": "1.9.4",
-    "@flydotio/dockerfile": "^0.5.9"
+    "@flydotio/dockerfile": "^0.5.9",
+    "openai": "^4.76.1"
   }
 }

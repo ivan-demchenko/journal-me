@@ -2,7 +2,7 @@ import type { NewEmploymentPayload } from "@jm/server/shared";
 import { saveEmployment } from "@src/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import type { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 
 type FormState = Omit<NewEmploymentPayload, "started" | "ended"> & {
   started: Date;
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/user/employment/new")({
       },
     });
 
-    const handleAddTodo = (e: FormEvent) => {
+    const handleFormSubmit = (e: FormEvent) => {
       e.preventDefault();
       e.stopPropagation();
       setIsDisabled(true);
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/_authenticated/user/employment/new")({
     };
 
     return (
-      <form onSubmit={handleAddTodo}>
+      <form onSubmit={handleFormSubmit}>
         <h2 className="page-title">Add employment</h2>
         <div>
           <Link to="/user/profile">Go back</Link>
@@ -121,8 +121,8 @@ export const Route = createFileRoute("/_authenticated/user/employment/new")({
                 <input
                   type="month"
                   disabled={isDisabled}
-                  value={form
-                    .ended!.toISOString()
+                  value={form.ended
+                    ?.toISOString()
                     .substring(0, "yyyy-mm".length)}
                   onChange={(e) =>
                     setForm((prev) => ({

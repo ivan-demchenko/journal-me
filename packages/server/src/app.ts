@@ -8,6 +8,7 @@ import { makeRecordsRoutes } from "./routes/records";
 import { makeEmploymentRoutes } from "./routes/employments";
 import type { Logger } from "@logtape/logtape";
 import type { Repository } from "@jm/db/repository";
+import { makeGenerateRoutes } from "./routes/generate";
 
 function makeApiRoutes(app: Hono, repository: Repository, logger: Logger) {
   return app
@@ -19,6 +20,10 @@ function makeApiRoutes(app: Hono, repository: Repository, logger: Logger) {
     .route(
       "/employments",
       makeEmploymentRoutes(repository, logger.getChild("employments")),
+    )
+    .route(
+      "/generate",
+      makeGenerateRoutes(repository, logger.getChild("generate")),
     )
     .route("/", authRoute);
 }

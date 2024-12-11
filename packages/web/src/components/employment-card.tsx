@@ -12,11 +12,15 @@ export function EmploymentCard({
         {employment.position} at{" "}
         <span className="font-bold">{employment.companyName}</span>
       </h3>
-      <ul className="divide-y divide-gray-700">
-        {employment.records.map((record) => (
-          <RecordCard key={record.id} record={record} />
-        ))}
-      </ul>
+      {employment.records.length > 0 ? (
+        <ul className="divide-y divide-gray-700">
+          {employment.records.map((record) => (
+            <RecordCard key={record.id} record={record} />
+          ))}
+        </ul>
+      ) : (
+        <div className="text-gray-500">No stories yet</div>
+      )}
     </div>
   );
 }

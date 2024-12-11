@@ -30,6 +30,7 @@ function RootComponent() {
           )}
           {user && (
             <section className="flex gap-2">
+              <Link to="/generate-cv">Generate a CV</Link>
               <Link to="/user/profile" className="[&.active]:font-bold">
                 Your profile
               </Link>
