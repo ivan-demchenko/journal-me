@@ -4,11 +4,11 @@ import * as schema from "./schema";
 import { Result } from "typescript-result";
 import { getLogger } from "@logtape/logtape";
 import type {
-  NewEmploymentType,
-  NewRecordType,
+  InsertEmploymentType,
+  InsertRecordType,
   SelectEmploymentType,
   SelectRecordType,
-} from "./types";
+} from "./validation.schemas";
 import type { ConnectionCredentials } from "..";
 
 const logger = getLogger(["jm-api", "db"]);
@@ -18,6 +18,7 @@ export class Repository {
     $client: Pool;
   };
   constructor(connectionConfig: ConnectionCredentials) {
+    logger.debug("Connecting to DB {env}", { env: connectionConfig });
     this.#db = drizzle({
       client: new Pool(connectionConfig),
       schema,
@@ -61,17 +62,13 @@ export class Repository {
   }
 
   async addUserRecord(
-    userId: string,
-    record: NewRecordType,
+    payload: InsertRecordType,
   ): Promise<Result<SelectRecordType, string>> {
     logger.info("add a record");
     try {
       const data = await this.#db
         .insert(schema.records)
-        .values({
-          ...record,
-          userId: userId,
-        })
+        .values(payload)
         .returning()
         .then((res) => res[0]);
 
@@ -101,17 +98,13 @@ export class Repository {
   }
 
   async addUserEmployment(
-    userId: string,
-    newEmployment: NewEmploymentType,
+    payload: InsertEmploymentType,
   ): Promise<Result<SelectEmploymentType, string>> {
     logger.info("add employment");
     try {
       const data = await this.#db
         .insert(schema.employments)
-        .values({
-          ...newEmployment,
-          userId: userId,
-        })
+        .values(payload)
         .returning()
         .then((res) => res[0]);
 

@@ -1,35 +1,48 @@
 import { resolve } from "node:path";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
-import { logger } from "hono/logger";
+import { logger as honoLogger } from "hono/logger";
 import { authRoute } from "./auth";
-import { recordsRoutes } from "./routes/records";
 import { Config } from "./config";
-import { employmentRoutes } from "./routes/employments";
+import { makeRecordsRoutes } from "./routes/records";
+import { makeEmploymentRoutes } from "./routes/employments";
+import type { Logger } from "@logtape/logtape";
+import type { Repository } from "@jm/db/repository";
 
-const app = new Hono();
+function makeApiRoutes(app: Hono, repository: Repository, logger: Logger) {
+  return app
+    .basePath("/api")
+    .route(
+      "/records",
+      makeRecordsRoutes(repository, logger.getChild("records")),
+    )
+    .route(
+      "/employments",
+      makeEmploymentRoutes(repository, logger.getChild("employments")),
+    )
+    .route("/", authRoute);
+}
 
-app.use("*", logger());
-app.get("/health", (c) => c.text("ok"));
+export function makeApp(repository: Repository, logger: Logger) {
+  const app = new Hono();
+  app.use("*", honoLogger());
+  app.get("/health", (c) => c.text("ok"));
 
-const apiRoutes = app
-  .basePath("/api")
-  .route("/records", recordsRoutes)
-  .route("/employments", employmentRoutes)
-  .route("/", authRoute);
+  makeApiRoutes(app, repository, logger);
 
-app.get(
-  "*",
-  serveStatic({
-    root: Config.WEB_CLIENT_ASSETS,
-  }),
-);
-app.get(
-  "*",
-  serveStatic({
-    path: resolve(Config.WEB_CLIENT_ASSETS, "index.html"),
-  }),
-);
+  app.get(
+    "*",
+    serveStatic({
+      root: Config.WEB_CLIENT_ASSETS,
+    }),
+  );
+  app.get(
+    "*",
+    serveStatic({
+      path: resolve(Config.WEB_CLIENT_ASSETS, "index.html"),
+    }),
+  );
+  return app;
+}
 
-export { app };
-export type ApiRoutes = typeof apiRoutes;
+export type ApiRoutes = ReturnType<typeof makeApiRoutes>;

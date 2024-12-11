@@ -17,8 +17,6 @@ const EnvSchema = z.object({
     .transform((val) => Number.parseInt(val)),
 });
 
-export type EnvConfig = z.infer<typeof EnvSchema>;
-
 const parseResult = EnvSchema.safeParse(process.env);
 
 if (parseResult.error) {
@@ -26,4 +24,5 @@ if (parseResult.error) {
   process.exit(1);
 }
 
+export type EnvConfig = z.infer<typeof EnvSchema>;
 export const Config = parseResult.data;

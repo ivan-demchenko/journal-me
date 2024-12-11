@@ -1,8 +1,12 @@
 {
   "name": "@jm/db",
   "private": "true",
-  "main": "index.ts",
   "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./repository": "./src/repository.ts",
+    "./io-schemas": "./src/validation.schemas.ts"
+  },
   "scripts": {
     "migration:gen": "bunx --bun drizzle-kit generate",
     "migration:run": "bunx --bun drizzle-kit migrate"

@@ -9,8 +9,9 @@ bun install
 To run:
 
 ```bash
-bun --focus=@jm/server run dev
-bun --focus=@jm/web run dev
+bun --filter=@jm/db run migration:run
+bun --filter=@jm/server run dev
+bun --filter=@jm/web run dev
 ```
 
 Deploy to Fly.io
