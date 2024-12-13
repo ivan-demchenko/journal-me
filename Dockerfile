@@ -12,7 +12,6 @@ WORKDIR /app
 # Set production environment
 ENV NODE_ENV="production"
 
-
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
@@ -33,7 +32,6 @@ RUN cp -a ./packages/web/dist/. ./dist/web/
 # Remove all files in frontend except for the dist folder
 RUN rm -rf ./packages
 RUN rm -rf ./node_modules
-# RUN find . -mindepth 1 ! -regex '^./dist\(/.*\)?' -delete
 
 # Final stage for app image
 FROM base
