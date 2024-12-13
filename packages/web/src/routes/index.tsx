@@ -13,7 +13,7 @@ function Index() {
       <h1 className="page-title">Welcome to Journal Me</h1>
       <SellingPoints />
       <section className="mt-4 p-8 rounded-2xl text-center">
-        <Link to="/user" className="text-2xl">
+        <Link to="/user/profile" className="text-2xl">
           Start now
         </Link>
       </section>

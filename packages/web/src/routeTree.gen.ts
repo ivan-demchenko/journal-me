@@ -13,7 +13,6 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthenticatedGenerateCvImport } from './routes/_authenticated/generate-cv'
 import { Route as AuthenticatedUserStartWritingImport } from './routes/_authenticated/user/start-writing'
 import { Route as AuthenticatedUserProfileImport } from './routes/_authenticated/user/profile'
@@ -30,12 +29,6 @@ const AuthenticatedRoute = AuthenticatedImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthLoginRoute = AuthLoginImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -97,13 +90,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGenerateCvImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof rootRoute
-    }
     '/_authenticated/user/profile': {
       id: '/_authenticated/user/profile'
       path: '/user/profile'
@@ -161,7 +147,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
   '/generate-cv': typeof AuthenticatedGenerateCvRoute
-  '/auth/login': typeof AuthLoginRoute
   '/user/profile': typeof AuthenticatedUserProfileRoute
   '/user/start-writing': typeof AuthenticatedUserStartWritingRoute
   '/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
@@ -172,7 +157,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
   '/generate-cv': typeof AuthenticatedGenerateCvRoute
-  '/auth/login': typeof AuthLoginRoute
   '/user/profile': typeof AuthenticatedUserProfileRoute
   '/user/start-writing': typeof AuthenticatedUserStartWritingRoute
   '/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
@@ -184,7 +168,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_authenticated/generate-cv': typeof AuthenticatedGenerateCvRoute
-  '/auth/login': typeof AuthLoginRoute
   '/_authenticated/user/profile': typeof AuthenticatedUserProfileRoute
   '/_authenticated/user/start-writing': typeof AuthenticatedUserStartWritingRoute
   '/_authenticated/user/employment/new': typeof AuthenticatedUserEmploymentNewRoute
@@ -197,7 +180,6 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/generate-cv'
-    | '/auth/login'
     | '/user/profile'
     | '/user/start-writing'
     | '/user/employment/new'
@@ -207,7 +189,6 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/generate-cv'
-    | '/auth/login'
     | '/user/profile'
     | '/user/start-writing'
     | '/user/employment/new'
@@ -217,7 +198,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/_authenticated/generate-cv'
-    | '/auth/login'
     | '/_authenticated/user/profile'
     | '/_authenticated/user/start-writing'
     | '/_authenticated/user/employment/new'
@@ -228,13 +208,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
-  AuthLoginRoute: typeof AuthLoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
-  AuthLoginRoute: AuthLoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -248,8 +226,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_authenticated",
-        "/auth/login"
+        "/_authenticated"
       ]
     },
     "/": {
@@ -268,9 +245,6 @@ export const routeTree = rootRoute
     "/_authenticated/generate-cv": {
       "filePath": "_authenticated/generate-cv.tsx",
       "parent": "/_authenticated"
-    },
-    "/auth/login": {
-      "filePath": "auth/login.tsx"
     },
     "/_authenticated/user/profile": {
       "filePath": "_authenticated/user/profile.tsx",

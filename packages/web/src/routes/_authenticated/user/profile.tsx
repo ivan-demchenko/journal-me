@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { userEmploymentStoriesQueryOptions } from "@src/lib/api";
-import { RecordCard } from "@src/components/record-card";
 import { EmploymentCard } from "@src/components/employment-card";
 
 export const Route = createFileRoute("/_authenticated/user/profile")({
@@ -40,7 +39,7 @@ function UserProfile() {
       </section>
       <section className="divide-gray-500">
         {data.employments.map((employment) => {
-          return <EmploymentCard employment={employment} />;
+          return <EmploymentCard key={employment.id} employment={employment} />;
         })}
       </section>
     </>
